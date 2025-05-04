@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -d "build" ]; then
+mkdir build
+fi
+
+cmake -B build
+(cd build && make)
+./build/mygame 
