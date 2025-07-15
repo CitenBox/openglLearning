@@ -189,7 +189,7 @@ int main(int argc, char *argv[]) {
     SDL_GetRelativeMouseState(&xpos, &ypos);
 
     camera.ProcessMouseMovement(xpos, -ypos);
-
+//lol
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_MOUSEWHEEL) {
