@@ -1,6 +1,3 @@
-#https://github.com/meemknight/SDL2OpenglCMakeSetup
-#Version 1.0.0
-
 cmake_minimum_required(VERSION 3.18)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -9,11 +6,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")  # Disable optimizations
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION $<IF:$<CONFIG:Debug>,OFF,ON>)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-#! ! ! ! ! ! !
-#set this to true to ship the game!
-#basically this will change the RESOURCES_PATH to be the local path
-#! ! ! ! ! ! !
-#DELETE THE OUT FOLDER AFTER CHANGING THIS BECAUSE VISUAL STUDIO DOESN'T SEEM TO RECOGNIZE THIS CHANGE AND REBUILD!
+
 option(PRODUCTION_BUILD "Make this a production build" OFF)
 #DELETE THE OUT FOLDER AFTER CHANGING THIS BECAUSE VISUAL STUDIO DOESN'T SEEM TO RECOGNIZE THIS CHANGE AND REBUILD!
 
@@ -22,8 +15,8 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 
-if(MSVC) 
-add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
+if(MSVC)
+  add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
 endif()
 
 project(mygame)
@@ -32,71 +25,43 @@ add_compile_definitions(SHADERS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/shaders/")
 
 set(SDL_STATIC ON)
 
-add_subdirectory(thirdparty/SDL-release-2.30.5)		#window opener
-add_subdirectory(thirdparty/glad)			#opengl loader
-add_subdirectory(thirdparty/stb_image)			#loading images
-add_subdirectory(thirdparty/stb_truetype)		#loading ttf files
+add_subdirectory(thirdparty/SDL-release-2.30.5) #window opener
+add_subdirectory(thirdparty/glad) #opengl loader
+add_subdirectory(thirdparty/stb_image) #loading images
+add_subdirectory(thirdparty/stb_truetype) #loading ttf files
 #add_subdirectory(thirdparty/enet-1.3.17)		#networking
-add_subdirectory(thirdparty/glm)			#math
+add_subdirectory(thirdparty/glm) #math
 #add_subdirectory(thirdparty/SDL_image)     #for clay sdl renderer
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui")
 
-
-
-
-# MY_SOURCES is defined to be a list of all the source files for my game 
-# DON'T ADD THE SOURCES BY HAND, they are already added with this macro
-#file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-
-
 add_executable("${CMAKE_PROJECT_NAME}"
-		src/Shader.cpp
-		src/main.cpp
-		src/openglErrorReporting.cpp
-		src/filereader.h
-		src/camera.cpp
-		src/camera.h "thirdparty/imgui/imconfig.h" "thirdparty/imgui/imgui.cpp" "thirdparty/imgui/imgui.h" "thirdparty/imgui/imgui_demo.cpp" "thirdparty/imgui/imgui_draw.cpp" "thirdparty/imgui/imgui_internal.h" "thirdparty/imgui/imgui_tables.cpp" "thirdparty/imgui/imgui_widgets.cpp" "thirdparty/imgui/imstb_rectpack.h" "thirdparty/imgui/imstb_textedit.h" "thirdparty/imgui/imstb_truetype.h" "thirdparty/imgui/imgui_impl_sdl2.cpp" "thirdparty/imgui/imgui_impl_sdl2.h" "thirdparty/imgui/imgui_impl_sdlrenderer2.cpp" "thirdparty/imgui/imgui_impl_sdlrenderer2.h")
+  src/Shader.cpp
+  src/main.cpp
+  src/openglErrorReporting.cpp
+  src/filereader.h
+  src/camera.cpp
+  src/camera.h "thirdparty/imgui/imconfig.h" "thirdparty/imgui/imgui.cpp" "thirdparty/imgui/imgui.h" "thirdparty/imgui/imgui_demo.cpp" "thirdparty/imgui/imgui_draw.cpp" "thirdparty/imgui/imgui_internal.h" "thirdparty/imgui/imgui_tables.cpp" "thirdparty/imgui/imgui_widgets.cpp" "thirdparty/imgui/imstb_rectpack.h" "thirdparty/imgui/imstb_textedit.h" "thirdparty/imgui/imstb_truetype.h" "thirdparty/imgui/imgui_impl_sdl2.cpp" "thirdparty/imgui/imgui_impl_sdl2.h" "thirdparty/imgui/imgui_impl_sdlrenderer2.cpp" "thirdparty/imgui/imgui_impl_sdlrenderer2.h")
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
 
 
-target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC GLFW_INCLUDE_NONE=1) 
+target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC GLFW_INCLUDE_NONE=1)
 
 if(PRODUCTION_BUILD)
-	# setup the ASSETS_PATH macro to be in the root folder of your exe
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="./resources/") 
- 
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1) 
+  # setup the ASSETS_PATH macro to be in the root folder of your exe
+  target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="./resources/")
+
+  target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
 
 else()
-	# This is useful to get an ASSETS_PATH in your IDE during development
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/")
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0) 
-
-endif()
-
-
-if(MSVC) # If using the VS compiler...
-
-	target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC _CRT_SECURE_NO_WARNINGS)
-
-	#add this line if you want to remove the console!
-	#set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup") #no console
-	
-	#set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug<$<CONFIG:Debug>:Debug>")
-	#set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+  # This is useful to get an ASSETS_PATH in your IDE during development
+  target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/")
+  target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
 
 endif()
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
-
-
-#target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glm 
-#	glad stb_image stb_truetype gl2d imgui enet)
-
-#enet not working yet on linux for some reason
-
-target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glm 
-	glad stb_image stb_truetype SDL2-static)
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glm
+ glad stb_image stb_truetype SDL2-static)
 
