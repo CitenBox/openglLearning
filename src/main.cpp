@@ -281,6 +281,14 @@ int main(int argc, char *argv[]) {
     shader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
     shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     shader.setVec3("lightPos", lightPos);
+    shader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+    shader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+    shader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+    shader.setFloat("material.shininess", 32.0f);
+    shader.setVec3("light.ambient",  0.1f, 0.1f, 0.1f);
+    shader.setVec3("light.diffuse",  0.5f, 0.5f, 0.5f);
+    shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
 
     glm::mat4 model = glm::mat4(1.0f);
     glBindVertexArray(cubeVao);

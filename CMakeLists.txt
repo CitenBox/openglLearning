@@ -1,27 +1,28 @@
 cmake_minimum_required(VERSION 3.18)
-
 set(CMAKE_CXX_STANDARD 20)
-
+include(FetchContent)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")  # Disable optimizations
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION $<IF:$<CONFIG:Debug>,OFF,ON>)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(PRODUCTION_BUILD "Make this a production build" OFF)
-#DELETE THE OUT FOLDER AFTER CHANGING THIS BECAUSE VISUAL STUDIO DOESN'T SEEM TO RECOGNIZE THIS CHANGE AND REBUILD!
-
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-
-if(MSVC)
-  add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
-endif()
-
 project(mygame)
 
 add_compile_definitions(SHADERS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/shaders/")
+
+FetchContent_Declare(
+  fastgltf
+  GIT_REPOSITORY https://github.com/spnda/fastgltf.git
+  GIT_TAG        main
+)
+
+FetchContent_MakeAvailable(fastgltf)
+
 
 set(SDL_STATIC ON)
 
@@ -30,7 +31,7 @@ add_subdirectory(thirdparty/glad) #opengl loader
 add_subdirectory(thirdparty/stb_image) #loading images
 add_subdirectory(thirdparty/stb_truetype) #loading ttf files
 #add_subdirectory(thirdparty/enet-1.3.17)		#networking
-add_subdirectory(thirdparty/glm) #math
+add_subdirectory(thirdparty/glm) #math\
 #add_subdirectory(thirdparty/SDL_image)     #for clay sdl renderer
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui")
 
