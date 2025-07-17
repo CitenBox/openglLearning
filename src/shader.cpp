@@ -2,7 +2,7 @@
 // Created by troll on 3/22/2025.
 //
 
-#include "Shader.h"
+#include "shader.h"
 #include "filereader.h"
 #include <glad/glad.h>
 #include <iostream>
