@@ -6,7 +6,7 @@
 
 
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned> indice, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned> indices, std::vector<Texture> textures)
 : vertices(vertices), indices(indices), textures(textures){
     setupMesh();
 }

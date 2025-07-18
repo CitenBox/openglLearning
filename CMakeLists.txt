@@ -26,7 +26,8 @@ add_subdirectory(thirdparty/stb_truetype) #loading ttf files
 add_subdirectory(thirdparty/glm) #math\
 #add_subdirectory(thirdparty/SDL_image)     #for clay sdl renderer
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui")
-add_subdirectory(thirdparty/assimp)
+
+find_package(assimp REQUIRED)
 
 add_executable("${CMAKE_PROJECT_NAME}"
   src/shader.h
@@ -63,5 +64,5 @@ endif()
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE glm
- glad stb_image stb_truetype SDL2-static assimp)
+ glad stb_image stb_truetype SDL2-static assimp::assimp)
 

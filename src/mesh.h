@@ -32,13 +32,15 @@ class Mesh {
     vector<unsigned> indices;
     vector<Texture> textures;
 
-    Mesh(vector<Vertex> vertices, vector<unsigned> indice, vector<Texture> textures);
+    unsigned VAO;
+
+    Mesh(vector<Vertex> vertices, vector<unsigned> indices, vector<Texture> textures);
 
     void draw(Shader& shader);
 
     private:
 
-    unsigned VAO, VBO, EBO;
+    unsigned VBO, EBO;
 
     void setupMesh();
     

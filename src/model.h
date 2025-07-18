@@ -18,13 +18,10 @@ class Model
     string directory;
     bool gammaCorrection;
 
-    Model(char *path, bool gammaCorrection = false) : gammaCorrection(gammaCorrection)
-    {
-        loadModel(path);
-    }
+    Model(char *path, bool gammaCorrection = false);
     void draw(Shader &shader);	
 
-    void loadModel(std::string path);
+    void loadModel(string path);
     void processNode(aiNode *node, const aiScene *scene);
     Mesh processMesh(aiMesh *mesh, const aiScene *scene);
     vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);

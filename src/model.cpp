@@ -3,9 +3,14 @@
 #include <glad/glad.h>
 #include <stb_image/stb_image.h>
 
+Model::Model(char *path, bool gammaCorrection): gammaCorrection(gammaCorrection)
+{
+    loadModel(path);
+}
+
 void Model::draw(Shader &shader)
 {
-    for(unsigned int i = 0; i < meshes.size(); i++)
+    for(unsigned i = 0; i < meshes.size(); i++)
     meshes[i].draw(shader);
 }
 
@@ -131,7 +136,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
 {
-            vector<Texture> textures;
+        vector<Texture> textures;
         for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
@@ -158,7 +163,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
             }
         }
         return textures;
-    }
+    
 }
 
 unsigned Model::textureFromFile(const char *path, const string &directory, bool gamma)
