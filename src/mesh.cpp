@@ -3,11 +3,12 @@
 #include "mesh.h"
 #include "shader.h"
 #include <glad/glad.h>
+#include "global.h"
 
 
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned> indices, std::vector<Texture> textures)
-: vertices(vertices), indices(indices), textures(textures){
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned> indices, std::vector<Texture> textures, Material material)
+: vertices(vertices), indices(indices), textures(textures), material(material){
     setupMesh();
 }
 
@@ -74,7 +75,7 @@ void Mesh::draw(Shader &shader)
                 number = std::to_string(specularNr++); // transfer unsigned int to string
             else if(name == "texture_normal")
                 number = std::to_string(normalNr++); // transfer unsigned int to string
-             else if(name == "texture_height")
+            else if(name == "texture_height")
                 number = std::to_string(heightNr++); // transfer unsigned int to string
 
             // now set the sampler to the correct texture unit
@@ -82,6 +83,12 @@ void Mesh::draw(Shader &shader)
             // and finally bind the texture
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
+
+        if(textures.size() <= 0)
+        {
+            glBindTexture(GL_TEXTURE_2D, global::defaultTexture);
+        }
+        glUniform4fv(glGetUniformLocation(shader.ID, "color"), 1, &material.color[0]);
         
         // draw mesh
         glBindVertexArray(VAO);

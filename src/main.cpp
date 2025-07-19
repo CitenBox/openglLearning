@@ -14,6 +14,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include "loadTexture.h"
 #include "model.h"
+#include "global.h"
 
 
 #undef main
@@ -80,6 +81,8 @@ int main(int argc, char *argv[]) {
 
   // Enable OpenGL error reporting
   enableReportGlErrors();
+
+  global::init();
 
   stbi_set_flip_vertically_on_load(false);
 

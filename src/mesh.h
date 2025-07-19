@@ -24,6 +24,10 @@ struct Texture{
     string path;
 };
 
+struct Material{
+    glm::vec4 color = glm::vec4(1);
+};
+
 class Shader;
 class Mesh {
     public:
@@ -31,10 +35,11 @@ class Mesh {
     vector<Vertex> vertices;
     vector<unsigned> indices;
     vector<Texture> textures;
+    Material material;
 
     unsigned VAO;
 
-    Mesh(vector<Vertex> vertices, vector<unsigned> indices, vector<Texture> textures);
+    Mesh(vector<Vertex> vertices, vector<unsigned> indices, vector<Texture> textures, Material material);
 
     void draw(Shader& shader);
 

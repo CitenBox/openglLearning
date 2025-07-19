@@ -117,6 +117,11 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
         // specular: texture_specularN
         // normal: texture_normalN
 
+        Material myMaterial;
+        aiColor4D matColor;
+        material->Get(AI_MATKEY_COLOR_DIFFUSE, matColor);
+        myMaterial.color = glm::vec4(matColor.r, matColor.g, matColor.b, matColor.a);
+
         // 1. diffuse maps
         vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -131,12 +136,13 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
         
         // return a mesh object created from the extracted mesh data
-        return Mesh(vertices, indices, textures);
+        return Mesh(vertices, indices, textures, myMaterial);
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName)
 {
         vector<Texture> textures;
+
         for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;

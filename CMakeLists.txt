@@ -41,6 +41,8 @@ add_executable("${CMAKE_PROJECT_NAME}"
   src/mesh.cpp
   src/model.h
   src/model.cpp
+  src/global.h
+  src/global.cpp
   "thirdparty/imgui/imconfig.h" "thirdparty/imgui/imgui.cpp" "thirdparty/imgui/imgui.h" "thirdparty/imgui/imgui_demo.cpp" "thirdparty/imgui/imgui_draw.cpp" "thirdparty/imgui/imgui_internal.h" "thirdparty/imgui/imgui_tables.cpp" "thirdparty/imgui/imgui_widgets.cpp" "thirdparty/imgui/imstb_rectpack.h" "thirdparty/imgui/imstb_textedit.h" "thirdparty/imgui/imstb_truetype.h" "thirdparty/imgui/imgui_impl_sdl2.cpp" "thirdparty/imgui/imgui_impl_sdl2.h" "thirdparty/imgui/imgui_impl_sdlrenderer2.cpp" "thirdparty/imgui/imgui_impl_sdlrenderer2.h")
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 17)
